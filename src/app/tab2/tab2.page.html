@@ -1,0 +1,109 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="header-toolbar">
+    <div class="header-top">
+      <div>
+        <span class="week-label">SEMANA ({{ rangoSemana }})</span>
+        <h1>Pedidos Surtidos</h1>
+      </div>
+      <div class="header-logo-mini">
+        <img src="assets/imgs/logo.webp" alt="Sayma" />
+      </div>
+    </div>
+
+    <div class="search-box">
+      <ion-icon name="search-outline"></ion-icon>
+      <input 
+        type="text" 
+        placeholder="Buscar folio, cliente o ciudad..." 
+        [(ngModel)]="textoBuscar" />
+      <ion-icon 
+        *ngIf="textoBuscar" 
+        name="close-circle" 
+        class="clear-icon" 
+        (click)="textoBuscar = ''">
+      </ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="surtidos-content">
+  
+  <ion-refresher slot="fixed" (ionRefresh)="refrescarLista($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="content-container">
+
+    <!-- Tarjetas de resumen semanal -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-icon">
+          <ion-icon name="checkmark-done-outline"></ion-icon>
+        </div>
+        <div class="summary-info">
+          <span class="value">{{ pedidosSemana.length }}</span>
+          <span class="label">Pedidos surtidos</span>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-icon">
+          <ion-icon name="cube-outline"></ion-icon>
+        </div>
+        <div class="summary-info">
+          <span class="value">{{ totalPaquetesSemana }}</span>
+          <span class="label">Paquetes totales</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="list-header">
+      <h2>Historial de la semana</h2>
+      <span>{{ pedidosFiltrados.length }} registros</span>
+    </div>
+
+    <!-- Lista de pedidos -->
+    <div class="orders-list">
+      <div 
+        class="order-card" 
+        *ngFor="let pedido of pedidosFiltrados" 
+        (click)="verDetallePedido(pedido)">
+        
+        <div class="card-top">
+          <div class="folio-group">
+            <span class="folio-badge">COMANDA: {{ pedido.id }}</span>
+            <span class="date-text">{{ pedido.fechaSurtido }} · {{ pedido.hora }}</span>
+          </div>
+          <span class="status-pill" [ngClass]="{
+            'status-packed': pedido.estatus === 'Empacado',
+            'status-delivered': pedido.estatus === 'En proceso',
+          }">
+            {{ pedido.estatus }}
+          </span>
+        </div>
+
+        <div class="card-body">
+          <h3>{{ pedido.cliente }}</h3>
+        </div>
+
+        <div class="card-footer">
+          <div class="metric">
+            <ion-icon name="layers-outline"></ion-icon>
+            <span><strong>{{ pedido.paquetes }}</strong> paquetes surtidos</span>
+          </div>
+          <div class="carrier-tag">
+            <span>Ver detalles</span>
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="pedidosFiltrados.length === 0">
+      <ion-icon name="file-tray-outline"></ion-icon>
+      <p>No se encontraron pedidos con "{{ textoBuscar }}"</p>
+    </div>
+
+  </div>
+</ion-content>

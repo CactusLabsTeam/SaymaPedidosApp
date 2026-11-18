@@ -1,0 +1,106 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="detail-toolbar">
+    <div class="toolbar-top">
+      <ion-button fill="clear" class="back-btn" (click)="regresar()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
+      <div class="title-block">
+        <span class="comanda-label">DETALLE DE SURTIDO</span>
+        <h1>COMANDA: {{ comandaId }}</h1>
+      </div>
+
+      <span class="status-badge" [ngClass]="porcentajeAvance === 100 ? 'badge-complete' : 'badge-process'">
+        {{ porcentajeAvance === 100 ? 'Empacado' : 'En proceso' }}
+      </span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="detail-content">
+  <div class="detail-container">
+
+    <!-- Tarjeta de Resumen y Progreso de la Comanda -->
+    <div class="progress-card">
+      <div class="client-info">
+        <span class="lbl">CLIENTE</span>
+        <h2>{{ cliente | uppercase }}</h2>
+      </div>
+
+      <div class="progress-stats">
+        <div class="stat-item">
+          <span class="num">{{ paquetesSurtidos }} / {{ totalPaquetesComanda }}</span>
+          <span class="txt">Paquetes surtidos</span>
+        </div>
+        <div class="stat-item align-right">
+          <span class="num">{{ codigosSurtidos }} / {{ productos.length }}</span>
+          <span class="txt">Códigos listos</span>
+        </div>
+      </div>
+
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" [style.width.%]="porcentajeAvance"></div>
+      </div>
+    </div>
+
+    <!-- Buscador rápido de código dentro de la comanda -->
+    <div class="search-code-box">
+      <ion-icon name="barcode-outline"></ion-icon>
+      <input 
+        type="text" 
+        placeholder="Filtrar código (ej. kim2blanco, su8792)..." 
+        [(ngModel)]="filtroCodigo" />
+      <ion-icon 
+        *ngIf="filtroCodigo" 
+        name="close-circle" 
+        class="clear-btn" 
+        (click)="filtroCodigo = ''">
+      </ion-icon>
+    </div>
+
+    <div class="section-header">
+      <h3>Lista de códigos a surtir</h3>
+      <span>Toca para marcar</span>
+    </div>
+
+    <!-- Lista de códigos y paquetes con Check -->
+    <div class="codes-list">
+      <div 
+        class="code-item" 
+        *ngFor="let item of productosFiltrados"
+        [class.is-checked]="item.surtido"
+        (click)="toggleSurtido(item)">
+        
+        <div class="code-left">
+          <div class="custom-check" [class.checked]="item.surtido">
+            <ion-icon *ngIf="item.surtido" name="checkmark-sharp"></ion-icon>
+          </div>
+          <div class="code-text">
+            <span class="code-name">{{ item.codigo }}</span>
+            <span class="code-status">
+              {{ item.surtido ? 'Paquete surtido' : 'Pendiente por surtir' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="code-right">
+          <div class="packages-pill">
+            <span class="pkg-count">{{ item.paquetes }}</span>
+            <span class="pkg-label">{{ item.paquetes === 1 ? 'paquete' : 'paquetes' }}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border detail-footer">
+  <div class="footer-inner">
+    <ion-button expand="block" class="btn-save" (click)="guardarAvance()">
+      <ion-icon name="checkmark-done-outline" slot="start"></ion-icon>
+      {{ porcentajeAvance === 100 ? 'Finalizar Comanda' : 'Guardar Avance' }}
+    </ion-button>
+  </div>
+</ion-footer>

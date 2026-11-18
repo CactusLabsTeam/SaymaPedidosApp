@@ -1,0 +1,85 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="qr-toolbar">
+    <div class="header-top">
+      <div>
+        <span class="section-label">LECTOR DE COMANDAS</span>
+        <h1>Escanear Ticket</h1>
+      </div>
+      <div class="header-logo-mini">
+        <img src="assets/imgs/logo.webp" alt="Sayma" />
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="qr-content">
+  <div class="qr-container">
+
+    <!-- Tarjeta visual principal -->
+    <div class="hero-card">
+      <div class="qr-illustration">
+        <div class="scan-brackets">
+          <span class="corner tl"></span>
+          <span class="corner tr"></span>
+          <span class="corner bl"></span>
+          <span class="corner br"></span>
+          <ion-icon name="qr-code-outline" class="qr-icon"></ion-icon>
+        </div>
+        <div class="ticket-badge">
+          <ion-icon name="receipt-outline"></ion-icon>
+          <span>TICKET DE COMANDA</span>
+        </div>
+      </div>
+
+      <h2>Surtido por Código QR</h2>
+      <p>
+        Utiliza la cámara de tu dispositivo para abrir automáticamente la lista de paquetes de la comanda que vas a surtir.
+      </p>
+    </div>
+
+    <!-- Guía paso a paso -->
+    <div class="steps-card">
+      <h3>¿Cómo escanear tu comanda?</h3>
+
+      <div class="step-item">
+        <div class="step-number">1</div>
+        <div class="step-text">
+          <strong>Presiona el botón Escanear</strong>
+          <span>Toca el botón inferior para activar la cámara lectora.</span>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">2</div>
+        <div class="step-text">
+          <strong>Enfoca el QR del ticket</strong>
+          <span>Coloca el código QR impreso en el ticket de la comanda frente a la cámara.</span>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-number">3</div>
+        <div class="step-text">
+          <strong>Surte y marca los paquetes</strong>
+          <span>El sistema abrirá el detalle de la comanda para que marques cada código surtido.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón de acción para desplegar el escáner -->
+    <div class="action-box">
+      <ion-button 
+        expand="block" 
+        class="btn-scan-action" 
+        (click)="iniciarEscaneo()" 
+        [disabled]="abriendoCamara">
+        <ion-spinner *ngIf="abriendoCamara" name="crescent"></ion-spinner>
+        <ng-container *ngIf="!abriendoCamara">
+          <ion-icon name="scan-outline" slot="start"></ion-icon>
+          Escanear QR de Comanda
+        </ng-container>
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

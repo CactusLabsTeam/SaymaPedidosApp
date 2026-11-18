@@ -1,0 +1,64 @@
+<ion-content [fullscreen]="true" class="login-content">
+  <div class="login-wrapper">
+    
+    <!-- Encabezado y Logo -->
+    <div class="brand-section">
+      <div class="logo-box">
+        <img src="assets/imgs/logo.webp" alt="Sayma Trading" class="brand-logo" />
+      </div>
+      <h1>SAYMA TRADING</h1>
+      <p>Gestión de pedidos y mayoreo</p>
+    </div>
+
+    <!-- Tarjeta de Formulario -->
+    <div class="form-card">
+      <form (ngSubmit)="iniciarSesion()">
+        
+        <div class="input-group">
+          <label>Usuario</label>
+          <div class="custom-input">
+            <ion-icon name="person-outline"></ion-icon>
+            <ion-input
+              type="email"
+              placeholder="Nombre de usuario"
+              [(ngModel)]="credenciales.email"
+              name="email"
+              required>
+            </ion-input>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Contraseña</label>
+          <div class="custom-input">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <ion-input
+              [type]="mostrarPassword ? 'text' : 'password'"
+              placeholder="••••••••"
+              [(ngModel)]="credenciales.password"
+              name="password"
+              required>
+            </ion-input>
+            <ion-icon 
+              [name]="mostrarPassword ? 'eye-off-outline' : 'eye-outline'" 
+              class="toggle-eye"
+              (click)="togglePassword()">
+            </ion-icon>
+          </div>
+        </div>
+
+        <ion-button expand="block" type="submit" class="btn-submit" [disabled]="cargando">
+          <ion-spinner *ngIf="cargando" name="crescent"></ion-spinner>
+          <span *ngIf="!cargando">Iniciar Sesión</span>
+        </ion-button>
+
+      </form>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="footer-note">
+      <span>Sayma Trading &copy; {{ anioActual }}</span>
+    </div>
+
+  </div>
+</ion-content>

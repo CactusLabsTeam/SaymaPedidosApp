@@ -1,0 +1,111 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="profile-toolbar">
+    <div class="header-top">
+      <div>
+        <span class="section-label">CUENTA DE ACCESO</span>
+        <h1>Mi Perfil</h1>
+      </div>
+      <div class="header-logo-mini">
+        <img src="assets/imgs/logo.webp" alt="Sayma" />
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="profile-content">
+  <div class="profile-container">
+
+    <!-- Datos básicos del usuario (sin foto) -->
+    <div class="info-card">
+      <div class="info-row">
+        <span class="lbl">NOMBRE COMPLETO</span>
+        <span class="val">{{ operador.nombreCompleto | uppercase }}</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="info-row">
+        <span class="lbl">USUARIO</span>
+        <span class="val user-tag">{{ operador.usuario }}</span>
+      </div>
+    </div>
+
+    <!-- Formulario para cambiar contraseña -->
+    <div class="password-card">
+      <div class="card-header">
+        <ion-icon name="key-outline"></ion-icon>
+        <h2>Cambiar Contraseña</h2>
+      </div>
+
+      <form (ngSubmit)="actualizarPassword()">
+        
+        <div class="input-group">
+          <label>Contraseña actual</label>
+          <div class="custom-input">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <ion-input
+              [type]="verActual ? 'text' : 'password'"
+              placeholder="Ingresa tu contraseña actual"
+              [(ngModel)]="formPassword.actual"
+              name="actual">
+            </ion-input>
+            <ion-icon
+              [name]="verActual ? 'eye-off-outline' : 'eye-outline'"
+              class="eye-btn"
+              (click)="verActual = !verActual">
+            </ion-icon>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Nueva contraseña</label>
+          <div class="custom-input">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+            <ion-input
+              [type]="verNueva ? 'text' : 'password'"
+              placeholder="Mínimo 6 caracteres"
+              [(ngModel)]="formPassword.nueva"
+              name="nueva">
+            </ion-input>
+            <ion-icon
+              [name]="verNueva ? 'eye-off-outline' : 'eye-outline'"
+              class="eye-btn"
+              (click)="verNueva = !verNueva">
+            </ion-icon>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Confirmar nueva contraseña</label>
+          <div class="custom-input">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <ion-input
+              [type]="verConfirmar ? 'text' : 'password'"
+              placeholder="Repite la nueva contraseña"
+              [(ngModel)]="formPassword.confirmar"
+              name="confirmar">
+            </ion-input>
+            <ion-icon
+              [name]="verConfirmar ? 'eye-off-outline' : 'eye-outline'"
+              class="eye-btn"
+              (click)="verConfirmar = !verConfirmar">
+            </ion-icon>
+          </div>
+        </div>
+
+        <ion-button expand="block" type="submit" class="btn-update" [disabled]="guardando">
+          <ion-spinner *ngIf="guardando" name="crescent"></ion-spinner>
+          <span *ngIf="!guardando">Actualizar Contraseña</span>
+        </ion-button>
+
+      </form>
+    </div>
+
+    <!-- Botón Cerrar Sesión -->
+    <ion-button expand="block" class="btn-logout" (click)="cerrarSesion()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Cerrar Sesión
+    </ion-button>
+
+  </div>
+</ion-content>
